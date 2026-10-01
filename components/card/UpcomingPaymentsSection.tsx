@@ -157,15 +157,17 @@ export default function UpcomingPaymentsSection({
   payments = DEFAULT_PAYMENTS,
   onViewAll,
 }: UpcomingPaymentsSectionProps) {
-    
   return (
     <View className="w-[90%] self-center">
       <UpcomingPaymentsHeader paymentCount={payments.length} onViewAll={onViewAll} />
       <View className="gap-2">
         {payments.map(payment => (
-            <TouchableHighlight onPress={() => router.push(`/payment/${payment.id}`)} key={payment.id}>
-              <UpcomingPaymentRow key={payment.id} payment={payment} />
-            </TouchableHighlight>
+          <TouchableHighlight
+            onPress={() => router.push(`/payment/${payment.id}`)}
+            key={payment.id}
+          >
+            <UpcomingPaymentRow key={payment.id} payment={payment} />
+          </TouchableHighlight>
         ))}
       </View>
     </View>

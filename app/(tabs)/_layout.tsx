@@ -15,11 +15,11 @@ export default function TabLayout() {
       <Tabs.Screen name="stats" options={{ title: "통계" }} />
       <Tabs.Screen name="profile" options={{ title: "마이" }} />
       <Tabs.Screen
-          name="payment/[id]"
-          options={{
-            href: null, // 👈 하단 탭바 렌더링에서 제외시킵니다.
-          }}
-        />
+        name="payment/[id]"
+        options={{
+          href: null, // 👈 하단 탭바 렌더링에서 제외시킵니다.
+        }}
+      />
     </Tabs>
   );
 }
