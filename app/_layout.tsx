@@ -2,9 +2,8 @@ import { Stack, useSegments, useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useEffect, useCallback } from "react";
 import { Text, View, ActivityIndicator } from "react-native";
-
 import { AuthProvider, useAuth } from "../context/AuthContext";
-
+import ThemeToggle from "../components/toggle/ThemeToggle";
 import "../global.css";
 
 function AuthRoot() {
@@ -40,6 +39,7 @@ function AuthRoot() {
   }
   return (
     <>
+      {/* <ThemeToggle /> */}
       <StatusBar style="auto" />
       <Stack
         screenOptions={{
@@ -47,6 +47,7 @@ function AuthRoot() {
         }}
       >
         <Stack.Screen name="(app)" options={{}} />
+        <Stack.Screen name="(tabs)" options={{}} />
         <Stack.Screen
           name="auth/login"
           options={{
@@ -63,6 +64,12 @@ function AuthRoot() {
           name="notification"
           options={{
             title: "Notification",
+          }}
+        />
+        <Stack.Screen
+          name="payment"
+          options={{
+            title: "Payment",
           }}
         />
       </Stack>

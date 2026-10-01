@@ -1,7 +1,5 @@
-import LogoSvgIcon from '@/assets/logo.svg';
+import LogoSvgIcon from "@/assets/logo.svg";
 
-export default function Logo() {
-  return (
-    <LogoSvgIcon width={20} height={20} />
-  )
+export default function Logo({ theme }: { theme: any }) {
+  return <LogoSvgIcon width={22} height={22} />;
 }

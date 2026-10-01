@@ -1,18 +1,18 @@
+import { View, Text, ScrollView } from "react-native";
 import Header from "@/components/header/Header";
-import { useRouter } from "expo-router";
-import { ScrollView, View } from "react-native";
+import { router } from "expo-router";
 
-export default function NotificationScreen() {
-  const router = useRouter();
-
+export default function ProfileScreen() {
   return (
-    <View className="flex-1 bg-slate-50">
+    <View className="flex-1 bg-card">
       <Header
-        title=""
+        title="구독했쥐"
         showHome={true}
         onHomeIconPress={() => router.push("/")}
         rightIcon="notifications-outline"
         onRightIconPress={() => router.push("/notification")}
+        showSetting={true}
+        onSettingIconPress={() => router.push("/settings")}
       />
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}

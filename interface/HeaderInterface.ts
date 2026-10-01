@@ -8,4 +8,6 @@ export interface HeaderProps {
   onRightIconPress?: () => void;
   showHome?: boolean;
   onHomeIconPress?: () => void;
+  showSetting?: boolean;
+  onSettingIconPress?: () => void;
 }

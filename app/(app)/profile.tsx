@@ -15,7 +15,7 @@ export default function ProfileScreen() {
   const phone = user?.phone ?? "Not provided";
 
   return (
-    <ScrollView className="flex-1 bg-white">
+    <ScrollView className="flex-1 bg-card">
       <View className="items-center p-6">
         <View className="mb-6 items-center">
           {avatar ? (
