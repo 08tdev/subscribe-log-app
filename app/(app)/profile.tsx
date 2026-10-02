@@ -31,7 +31,7 @@ export default function ProfileScreen() {
           <Text className="text-gray-500">{email}</Text>
         </View>
 
-        <View className="w-full bg-white rounded-xl shadow-sm mb-4">
+        <View className="w-full bg-surface rounded-xl shadow-sm mb-4">
           <View className="p-4 border-b border-gray-100">
             <Text className="text-lg font-semibold mb-2">Profile Information</Text>
             <View className="space-y-2">

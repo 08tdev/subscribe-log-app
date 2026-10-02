@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text, View } from "react-native";
+import { useThemeColors } from "@/constants/theme";
 
 type TrendingSubscription = {
   id: string;
@@ -68,17 +69,19 @@ const TRENDING_SUBSCRIPTIONS: TrendingSubscription[] = [
 ];
 
 function RankingHeader({ onViewAll }: Pick<TrendingSubscriptionsProps, "onViewAll">) {
+  const themeColors = useThemeColors();
+
   return (
     <View className="w-[94%] max-w-[480px] self-center">
       <View className="mb-1 flex-row items-center gap-2">
-        <View className="flex-row items-center gap-1 rounded-full bg-[#EEE9FF] px-2 py-1">
-          <Ionicons name="flame" size={11} color="#6547D4" />
-          <Text className="text-[9px] font-semibold text-[#6547D4]">실시간 랭킹</Text>
+        <View className="flex-row items-center gap-1 rounded-full bg-primary-soft px-2 py-1">
+          <Ionicons name="flame" size={11} color={themeColors.primary} />
+          <Text className="text-[9px] font-semibold text-primary">실시간 랭킹</Text>
         </View>
-        <Text className="text-[9px] text-[#69728A]">오늘 15:00 기준</Text>
+        <Text className="text-[9px] text-muted">오늘 15:00 기준</Text>
       </View>
       <View className="flex-row items-center justify-between gap-2">
-        <Text className="min-w-0 flex-1 text-[16px] font-bold leading-[21px] text-[#20243A]">
+        <Text className="min-w-0 flex-1 text-[16px] font-bold leading-[21px] text-foreground">
           이번 주 가장 많이 찾는 TOP 5 구독
         </Text>
         <Pressable
@@ -86,8 +89,8 @@ function RankingHeader({ onViewAll }: Pick<TrendingSubscriptionsProps, "onViewAl
           onPress={onViewAll}
           className="shrink-0 flex-row items-center gap-0.5 py-1"
         >
-          <Text className="text-[10px] font-medium text-[#59627B]">전체 순위</Text>
-          <Ionicons name="chevron-forward" size={12} color="#59627B" />
+          <Text className="text-[10px] font-medium text-muted">전체 순위</Text>
+          <Ionicons name="chevron-forward" size={12} color={themeColors.muted} />
         </Pressable>
       </View>
     </View>
@@ -95,16 +98,18 @@ function RankingHeader({ onViewAll }: Pick<TrendingSubscriptionsProps, "onViewAl
 }
 
 function RankingChange({ trend, trendValue }: Pick<TrendingSubscription, "trend" | "trendValue">) {
+  const themeColors = useThemeColors();
+
   if (trend === "new") {
     return (
-      <View className="mt-1 rounded-[4px] bg-[#FFE6E7] px-1 py-0.5">
-        <Text className="text-[7px] font-bold text-[#D84D59]">NEW</Text>
+      <View className="mt-1 rounded-[4px] bg-danger-soft px-1 py-0.5">
+        <Text className="text-[7px] font-bold text-danger">NEW</Text>
       </View>
     );
   }
 
   const isUp = trend === "up";
-  const color = isUp ? "#D84D59" : trend === "down" ? "#8991A3" : "#A3A8B5";
+  const color = isUp ? themeColors.danger : trend === "down" ? themeColors.subtle : themeColors.muted;
 
   return (
     <View className="mt-1 flex-row items-center justify-center gap-0.5">
@@ -153,28 +158,30 @@ function SubscriptionRow({
   rank: number;
   onAdd?: (subscriptionId: string) => void;
 }) {
+  const themeColors = useThemeColors();
+
   return (
-    <View className="min-h-[76px] w-[94%] max-w-[480px] self-center flex-row items-center gap-2 rounded-[15px] border border-[#F0F1F7] bg-white px-2 py-2 shadow-sm shadow-slate-200/60">
+    <View className="min-h-[76px] w-[94%] max-w-[480px] self-center flex-row items-center gap-2 rounded-[15px] border border-border bg-surface px-2 py-2 shadow-sm shadow-slate-200/60">
       <View className="w-5 shrink-0 items-center">
-        <Text className="text-[13px] font-bold text-[#20243A]">{rank}</Text>
+        <Text className="text-[13px] font-bold text-foreground">{rank}</Text>
         <RankingChange trend={subscription.trend} trendValue={subscription.trendValue} />
       </View>
       <ServiceIcon icon={subscription.icon} />
       <View className="min-w-0 flex-1">
         <View className="flex-row items-center gap-1">
-          <Text className="shrink text-[11px] font-bold text-[#20243A]" numberOfLines={1}>
+          <Text className="shrink text-[11px] font-bold text-foreground" numberOfLines={1}>
             {subscription.name}
           </Text>
           {subscription.badge && (
-            <View className="shrink-0 rounded-[5px] bg-[#E8EEFF] px-1.5 py-0.5">
-              <Text className="text-[8px] font-medium text-[#5267A9]">{subscription.badge}</Text>
+            <View className="shrink-0 rounded-[5px] bg-primary-soft px-1.5 py-0.5">
+              <Text className="text-[8px] font-medium text-primary">{subscription.badge}</Text>
             </View>
           )}
         </View>
-        <Text className="mt-0.5 text-[9px] leading-[12px] text-[#6C7489]" numberOfLines={1}>
+        <Text className="mt-0.5 text-[9px] leading-[12px] text-muted" numberOfLines={1}>
           {subscription.description}
         </Text>
-        <Text className="mt-0.5 text-[10px] font-semibold text-[#20243A]" numberOfLines={1}>
+        <Text className="mt-0.5 text-[10px] font-semibold text-foreground" numberOfLines={1}>
           {subscription.price}
         </Text>
       </View>
@@ -182,10 +189,10 @@ function SubscriptionRow({
         accessibilityRole="button"
         accessibilityLabel={`${subscription.name} 구독 추가`}
         onPress={() => onAdd?.(subscription.id)}
-        className="h-8 shrink-0 flex-row items-center gap-1 rounded-[10px] bg-[#E8EEFF] px-2.5 active:opacity-70"
+        className="h-8 shrink-0 flex-row items-center gap-1 rounded-[10px] bg-primary-soft px-2.5 active:opacity-70"
       >
-        <Ionicons name="add" size={13} color="#5148D2" />
-        <Text className="text-[9px] font-semibold text-[#5148D2]">추가</Text>
+        <Ionicons name="add" size={13} color={themeColors.primary} />
+        <Text className="text-[9px] font-semibold text-primary">추가</Text>
       </Pressable>
     </View>
   );

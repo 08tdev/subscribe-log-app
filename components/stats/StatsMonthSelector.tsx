@@ -1,44 +1,51 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text, View } from "react-native";
+import { useThemeColors } from "@/constants/theme";
 
 function MonthArrowButton({ direction }: { direction: "previous" | "next" }) {
+  const themeColors = useThemeColors();
+
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={direction === "previous" ? "이전 달" : "다음 달"}
-      className="h-8 w-8 items-center justify-center rounded-full bg-[#EAF0FF]"
+      className="h-8 w-8 items-center justify-center rounded-full bg-primary-soft"
     >
       <Ionicons
         name={direction === "previous" ? "chevron-back" : "chevron-forward"}
         size={17}
-        color="#344A78"
+        color={themeColors.foreground}
       />
     </Pressable>
   );
 }
 
 function MonthPicker() {
+  const themeColors = useThemeColors();
+
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel="2025년 4월 선택"
-      className="h-8 flex-row items-center gap-1 rounded-full bg-white px-3"
+      className="h-8 flex-row items-center gap-1 rounded-full bg-surface px-3"
     >
-      <Text className="text-[14px] font-bold text-[#20243A]">2025년 4월</Text>
-      <Ionicons name="chevron-down" size={14} color="#344A78" />
+      <Text className="text-[14px] font-bold text-foreground">2025년 4월</Text>
+      <Ionicons name="chevron-down" size={14} color={themeColors.foreground} />
     </Pressable>
   );
 }
 
 function MonthlyCalculationButton() {
+  const themeColors = useThemeColors();
+
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel="월간 결산"
-      className="h-7 flex-row items-center gap-1 rounded-full bg-[#EDE8FF] px-2.5"
+      className="h-7 flex-row items-center gap-1 rounded-full bg-primary-soft px-2.5"
     >
-      <Ionicons name="calendar-outline" size={13} color="#6046DD" />
-      <Text className="text-[11px] font-semibold text-[#6046DD]">월간 결산</Text>
+      <Ionicons name="calendar-outline" size={13} color={themeColors.primary} />
+      <Text className="text-[11px] font-semibold text-primary">월간 결산</Text>
     </Pressable>
   );
 }

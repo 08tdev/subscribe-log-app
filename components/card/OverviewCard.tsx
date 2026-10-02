@@ -1,6 +1,7 @@
 import { Text, View } from "react-native";
 import Svg, { Circle, Defs, LinearGradient, Rect, Stop } from "react-native-svg";
 import TransparentBadge from "@/components/badge/TransparentBadge";
+import { useThemeColors } from "@/constants/theme";
 
 function ReportBadges() {
   return (
@@ -33,11 +34,13 @@ function SavingsSummary() {
 }
 
 function BudgetProgress() {
+  const themeColors = useThemeColors();
+
   return (
     <View className="mt-6 w-full">
       <View className="mb-2 flex-row items-end justify-between">
         <Text className="text-sm font-semibold text-white/90">구독 예산 사용률</Text>
-        <Text className="text-base font-bold text-[#64F0CE]">87%</Text>
+        <Text className="text-base font-bold text-success">87%</Text>
       </View>
       <View
         className="h-3 w-full overflow-hidden rounded-full bg-[#392A9A]/80"
@@ -46,8 +49,8 @@ function BudgetProgress() {
         accessibilityLabel="구독 예산 사용률"
       >
         <View className="h-full w-[87%] flex-row overflow-hidden rounded-full">
-          <View className="h-full w-[92%] bg-[#62E8BF]" />
-          <View className="h-full flex-1 bg-[#FF716C]" />
+          <View className="h-full w-[92%] bg-success" />
+          <View className="h-full flex-1" style={{ backgroundColor: themeColors.danger }} />
         </View>
       </View>
     </View>

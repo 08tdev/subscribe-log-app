@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, TouchableHighlight, View } from "react-native";
 import { router } from "expo-router";
+import { useThemeColors } from "@/constants/theme";
 
 type WeeklyPaymentCardProps = {
   paymentCount?: number;
@@ -14,18 +15,20 @@ type PaymentNoticeTitleProps = {
 };
 
 function PaymentNoticeIcon() {
+  const themeColors = useThemeColors();
+
   return (
-    <View className="h-[50px] w-[50px] shrink-0 items-center justify-center rounded-[14px] bg-[#DDE5FF]">
-      <Ionicons name="notifications-outline" size={24} color="#5546D8" />
+    <View className="h-[50px] w-[50px] shrink-0 items-center justify-center rounded-[14px] bg-primary-soft">
+      <Ionicons name="notifications-outline" size={24} color={themeColors.primary} />
     </View>
   );
 }
 
 function PaymentNoticeTitle({ paymentCount }: PaymentNoticeTitleProps) {
   return (
-    <Text className="text-[15px] font-semibold text-[#20243A]" numberOfLines={1}>
-      이번 주 결제 예정 <Text className="font-bold text-[#E94D3D]">{paymentCount}건</Text>
-      <Text className="font-medium text-[#20243A]"> · 점검 알림</Text>
+    <Text className="text-[15px] font-semibold text-foreground" numberOfLines={1}>
+      이번 주 결제 예정 <Text className="font-bold text-danger">{paymentCount}건</Text>
+      <Text className="font-medium text-foreground"> · 점검 알림</Text>
     </Text>
   );
 }
@@ -46,7 +49,7 @@ function PaymentNoticeDetails({
   return (
     <View className="min-w-0 flex-1 gap-0.5">
       <PaymentNoticeTitle paymentCount={paymentCount} />
-      <Text className="text-[15px] leading-5 text-[#59627A]" numberOfLines={1} ellipsizeMode="tail">
+      <Text className="text-[15px] leading-5 text-muted" numberOfLines={1} ellipsizeMode="tail">
         {paymentDay} {serviceName} {paymentAmount} 출금 전 잔액을 확인해 주세요
       </Text>
     </View>
@@ -54,7 +57,8 @@ function PaymentNoticeDetails({
 }
 
 function PaymentNoticeChevron() {
-  return <Ionicons name="chevron-forward" size={20} color="#34415D" />;
+  const themeColors = useThemeColors();
+  return <Ionicons name="chevron-forward" size={20} color={themeColors.foreground} />;
 }
 
 export default function WeeklyPaymentCard({
@@ -66,7 +70,7 @@ export default function WeeklyPaymentCard({
   return (
     <TouchableHighlight
       onPress={() => router.push("/payment")}
-      className="w-[90%] rounded-[22px] bg-[#EEF2FF] px-4 py-3.5"
+      className="w-[90%] rounded-[22px] bg-primary-soft px-4 py-3.5"
     >
       <View className="w-full self-center flex-row items-center gap-4">
         <PaymentNoticeIcon />

@@ -1,4 +1,5 @@
 import { Pressable, Text } from "react-native";
+import { useThemeColors } from "@/constants/theme";
 
 type Props = {
   label: string;
@@ -15,18 +16,19 @@ export default function Button({
   disabled = false,
   fullWidth = true,
 }: Props) {
+  const themeColors = useThemeColors();
   const getBackgroundColor = () => {
-    if (disabled) return "bg-gray-400";
+    if (disabled) return "bg-surface-muted";
 
     switch (variant) {
       case "primary":
-        return "bg-indigo-700";
+        return "bg-primary";
       case "secondary":
-        return "bg-gray-600";
+        return "bg-surface-muted";
       case "danger":
-        return "bg-red-600";
+        return "bg-danger";
       default:
-        return "bg-indigo-700";
+        return "bg-primary";
     }
   };
 
@@ -44,7 +46,12 @@ export default function Button({
         opacity: pressed ? 0.8 : 1,
       })}
     >
-      <Text className="color-white font-bold text-center text-base">{label}</Text>
+      <Text
+        className={`font-bold text-center text-base ${variant === "danger" ? "text-danger-foreground" : variant === "secondary" || disabled ? "text-foreground" : "text-primary-foreground"}`}
+        style={disabled ? { color: themeColors.subtle } : undefined}
+      >
+        {label}
+      </Text>
     </Pressable>
   );
 }

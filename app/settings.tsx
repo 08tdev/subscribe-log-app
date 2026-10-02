@@ -1,24 +1,36 @@
-import { View, Text, ScrollView } from "react-native";
+import { useState } from "react";
+import { ScrollView, View } from "react-native";
 import Header from "@/components/header/Header";
+import SettingsContent from "@/components/settings/SettingsContent";
 import { router } from "expo-router";
 
 export default function SettingsScreen() {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+
   return (
     <View className="flex-1 bg-card">
       <Header
-        title=""
+        title="설정"
         showBack={true}
         showHome={false}
         onBackPress={() => (router.canGoBack() ? router.back() : router.replace("/"))}
-        rightIcon="notifications-outline"
-        onRightIconPress={() => router.push("/notification")}
+        rightIcon={searchOpen ? "close-outline" : "search-outline"}
+        onRightIconPress={() => {
+          setSearchOpen(current => !current);
+          setSearchValue("");
+        }}
       />
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         keyboardShouldPersistTaps="handled"
-        className="flex-1 items-center justify-center gap-y-2"
+        className="flex-1 bg-background"
       >
-        <View className="flex-1"></View>
+        <SettingsContent
+          searchOpen={searchOpen}
+          searchValue={searchValue}
+          onSearchValueChange={setSearchValue}
+        />
       </ScrollView>
     </View>
   );

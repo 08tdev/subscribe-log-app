@@ -1,9 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
 import { View, Text, Switch, TouchableOpacity, ScrollView, Alert } from "react-native";
+import { useColorScheme } from "nativewind";
 
 import Button from "../../components/Button";
 import { useAuth } from "../../context/AuthContext";
+import { useThemeColors } from "../../constants/theme";
 
 type SettingItemProps = {
   icon: keyof typeof Ionicons.glyphMap;
@@ -26,6 +28,8 @@ const SettingItem: React.FC<SettingItemProps> = ({
   showArrow = true,
   description,
 }) => {
+  const themeColors = useThemeColors();
+
   return (
     <TouchableOpacity
       className={`flex-row items-center p-4 ${description ? "items-start" : "items-center"}`}
@@ -33,7 +37,7 @@ const SettingItem: React.FC<SettingItemProps> = ({
       disabled={!onPress}
     >
       <View className="w-8 items-center">
-        <Ionicons name={icon} size={22} color="#4338ca" />
+        <Ionicons name={icon} size={22} color={themeColors.primary} />
       </View>
       <View className="flex-1 ml-3">
         <Text className="text-base font-medium">{title}</Text>
@@ -43,19 +47,20 @@ const SettingItem: React.FC<SettingItemProps> = ({
         <Switch
           value={value}
           onValueChange={onValueChange}
-          trackColor={{ false: "#d1d5db", true: "#a5b4fc" }}
-          thumbColor={value ? "#4338ca" : "#f3f4f6"}
+          activeThumbColor={themeColors.primary}
+          trackColor={{ false: themeColors.border, true: themeColors.primary }}
+          thumbColor={themeColors.switchThumb}
         />
       )}
-      {showArrow && !showToggle && <Ionicons name="chevron-forward" size={20} color="#9ca3af" />}
+      {showArrow && !showToggle && <Ionicons name="chevron-forward" size={20} color={themeColors.subtle} />}
     </TouchableOpacity>
   );
 };
 
 export default function SettingsScreen() {
   const { logout } = useAuth();
+  const { colorScheme, toggleColorScheme } = useColorScheme();
   const [notifications, setNotifications] = React.useState(true);
-  const [darkMode, setDarkMode] = React.useState(false);
 
   const handleLogout = () => {
     Alert.alert("Logout", "Are you sure you want to logout?", [
@@ -72,10 +77,10 @@ export default function SettingsScreen() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-gray-50">
+    <ScrollView className="flex-1 bg-background">
       <View className="px-4 py-6">
         <Text className="px-4 pb-2 text-sm font-semibold text-gray-500 uppercase">Preferences</Text>
-        <View className="bg-white rounded-xl mb-6">
+        <View className="bg-surface rounded-xl mb-6">
           <SettingItem
             icon="notifications-outline"
             title="Notifications"
@@ -90,8 +95,8 @@ export default function SettingsScreen() {
             title="Dark Mode"
             showToggle
             showArrow={false}
-            value={darkMode}
-            onValueChange={setDarkMode}
+            value={colorScheme === "dark"}
+            onValueChange={toggleColorScheme}
           />
           <View className="h-px bg-gray-100 mx-4" />
           <SettingItem
@@ -103,7 +108,7 @@ export default function SettingsScreen() {
         </View>
 
         <Text className="px-4 pb-2 text-sm font-semibold text-gray-500 uppercase">Account</Text>
-        <View className="bg-white rounded-xl mb-6">
+        <View className="bg-surface rounded-xl mb-6">
           <SettingItem
             icon="person-outline"
             title="Edit Profile"
@@ -128,7 +133,7 @@ export default function SettingsScreen() {
         </View>
 
         <Text className="px-4 pb-2 text-sm font-semibold text-gray-500 uppercase">Support</Text>
-        <View className="bg-white rounded-xl mb-6">
+        <View className="bg-surface rounded-xl mb-6">
           <SettingItem
             icon="help-circle-outline"
             title="Help Center"

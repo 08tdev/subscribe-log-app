@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text, TouchableHighlight, View } from "react-native";
 import { router } from "expo-router";
+import { useThemeColors } from "@/constants/theme";
 
 export type UpcomingPayment = {
   id: string;
@@ -53,12 +54,14 @@ function UpcomingPaymentsHeader({
   paymentCount: number;
   onViewAll?: () => void;
 }) {
+  const themeColors = useThemeColors();
+
   return (
     <View className="mb-1 flex-row items-center justify-between">
       <View className="flex-row items-center gap-1.5">
-        <Text className="text-[15px] font-bold text-[#20243A]">다가오는 결제</Text>
-        <View className="rounded-full bg-[#E8E9FF] px-1.5 py-0.5">
-          <Text className="text-[9px] font-semibold text-[#5546D8]">{paymentCount}건</Text>
+        <Text className="text-[15px] font-bold text-foreground">다가오는 결제</Text>
+        <View className="rounded-full bg-primary-soft px-1.5 py-0.5">
+          <Text className="text-[9px] font-semibold text-primary">{paymentCount}건</Text>
         </View>
       </View>
       <Pressable
@@ -68,8 +71,8 @@ function UpcomingPaymentsHeader({
         onPress={onViewAll}
         className="flex-row items-center gap-0.5"
       >
-        <Text className="text-[10px] font-medium text-[#4D5871]">전체 보기</Text>
-        <Ionicons name="chevron-forward" size={12} color="#4D5871" />
+        <Text className="text-[10px] font-medium text-muted">전체 보기</Text>
+        <Ionicons name="chevron-forward" size={12} color={themeColors.muted} />
       </Pressable>
     </View>
   );
@@ -103,8 +106,8 @@ function ServiceBadge({ label }: { label: string }) {
   const isAi = label === "AI";
 
   return (
-    <View className={`rounded px-1 py-0.5 ${isAi ? "bg-[#E1F8F0]" : "bg-[#EAEAFF]"}`}>
-      <Text className={`text-[8px] font-medium ${isAi ? "text-[#168A6D]" : "text-[#6557C9]"}`}>
+    <View className={`rounded px-1 py-0.5 ${isAi ? "bg-success-soft" : "bg-primary-soft"}`}>
+      <Text className={`text-[8px] font-medium ${isAi ? "text-success" : "text-primary"}`}>
         {label}
       </Text>
     </View>
@@ -114,10 +117,10 @@ function ServiceBadge({ label }: { label: string }) {
 function PaymentDueBadge({ daysUntilPayment }: { daysUntilPayment: number }) {
   const badgeStyle =
     daysUntilPayment <= 1
-      ? { background: "bg-[#FFE6E8]", text: "text-[#D94C5B]" }
+      ? { background: "bg-danger-soft", text: "text-danger" }
       : daysUntilPayment <= 3
-        ? { background: "bg-[#FFF0D8]", text: "text-[#B77819]" }
-        : { background: "bg-[#E7EDFF]", text: "text-[#5267A9]" };
+        ? { background: "bg-warning-soft", text: "text-warning" }
+        : { background: "bg-primary-soft", text: "text-primary" };
 
   return (
     <View className={`rounded-full px-1.5 py-0.5 ${badgeStyle.background}`}>
@@ -128,17 +131,17 @@ function PaymentDueBadge({ daysUntilPayment }: { daysUntilPayment: number }) {
 
 function UpcomingPaymentRow({ payment }: { payment: UpcomingPayment }) {
   return (
-    <View className="flex-row items-center gap-2.5 rounded-[14px] bg-white px-2.5 py-2 shadow-sm shadow-slate-200">
+    <View className="flex-row items-center gap-2.5 rounded-[14px] bg-surface px-2.5 py-2 shadow-sm shadow-slate-200">
       <PaymentServiceIcon icon={payment.icon} />
       <View className="min-w-0 flex-1">
         <View className="flex-row items-center gap-1">
-          <Text className="shrink text-[10px] font-bold text-[#20243A]" numberOfLines={1}>
+          <Text className="shrink text-[10px] font-bold text-foreground" numberOfLines={1}>
             {payment.name}
           </Text>
           {payment.badge && <ServiceBadge label={payment.badge} />}
         </View>
         <Text
-          className="text-[8px] leading-3 text-[#67718A]"
+          className="text-[8px] leading-3 text-muted"
           numberOfLines={1}
           ellipsizeMode="tail"
         >
@@ -146,7 +149,7 @@ function UpcomingPaymentRow({ payment }: { payment: UpcomingPayment }) {
         </Text>
       </View>
       <View className="shrink-0 items-end gap-1">
-        <Text className="text-[11px] font-bold text-[#20243A]">{payment.amount}</Text>
+        <Text className="text-[11px] font-bold text-foreground">{payment.amount}</Text>
         <PaymentDueBadge daysUntilPayment={payment.daysUntilPayment} />
       </View>
     </View>

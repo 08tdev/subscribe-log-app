@@ -25,7 +25,7 @@ export default function RegisterScreen() {
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
-      <View className="flex-1 justify-center items-center p-4 bg-white">
+      <View className="flex-1 justify-center items-center p-4 bg-surface">
         <View className="w-full max-w-sm">
           <View className="items-center mb-8">
             <Text className="text-3xl font-bold mb-1 text-center">Create Account</Text>

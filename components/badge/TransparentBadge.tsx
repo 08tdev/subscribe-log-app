@@ -1,5 +1,6 @@
 import { Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useThemeColors } from "@/constants/theme";
 
 type TransparentBadgeProps = {
   text: string;
@@ -13,14 +14,15 @@ export default function TransparentBadge({
   variant = "soft",
 }: TransparentBadgeProps) {
   const isSaving = variant === "saving";
+  const themeColors = useThemeColors();
 
   return (
     <View
       className={`flex-row items-center gap-1.5 rounded-lg px-3 py-1 ${
-        isSaving ? "bg-[#197F88]" : "bg-white/20"
+        isSaving ? "bg-success" : "bg-white/20"
       }`}
     >
-      {iconName && <Ionicons name={iconName} size={16} color={isSaving ? "#B6FFF0" : "#62F3D1"} />}
+      {iconName && <Ionicons name={iconName} size={16} color={themeColors.successSoft} />}
       <Text className="text-sm font-semibold text-white" numberOfLines={1}>
         {text}
       </Text>

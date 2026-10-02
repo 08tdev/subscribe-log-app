@@ -3,6 +3,7 @@ import { View, TextInput, Text, ActivityIndicator } from "react-native";
 
 import Button from "./Button";
 import { RegisterCredentials } from "../types/user";
+import { useThemeColors } from "@/constants/theme";
 
 interface RegisterFormProps {
   onSubmit: (credentials: RegisterCredentials) => Promise<void>;
@@ -14,6 +15,7 @@ export default function RegisterForm({ onSubmit, isLoading = false }: RegisterFo
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const themeColors = useThemeColors();
   const [errors, setErrors] = useState<{
     name?: string;
     email?: string;
@@ -63,10 +65,11 @@ export default function RegisterForm({ onSubmit, isLoading = false }: RegisterFo
       <View className="mb-4">
         <Text className="mb-2 text-gray-700">Name</Text>
         <TextInput
-          className={`p-4 border rounded-md ${errors.name ? "border-red-500" : "border-gray-300"}`}
+          className={`rounded-md border bg-surface p-4 text-foreground ${errors.name ? "border-red-500" : "border-border"}`}
           value={name}
           onChangeText={setName}
           placeholder="Your name"
+          placeholderTextColor={themeColors.subtle}
           autoCapitalize="words"
           onFocus={() => setErrors({ ...errors, name: undefined })}
         />
@@ -76,10 +79,11 @@ export default function RegisterForm({ onSubmit, isLoading = false }: RegisterFo
       <View className="mb-4">
         <Text className="mb-2 text-gray-700">Email</Text>
         <TextInput
-          className={`p-4 border rounded-md ${errors.email ? "border-red-500" : "border-gray-300"}`}
+          className={`rounded-md border bg-surface p-4 text-foreground ${errors.email ? "border-red-500" : "border-border"}`}
           value={email}
           onChangeText={setEmail}
           placeholder="your@email.com"
+          placeholderTextColor={themeColors.subtle}
           autoCapitalize="none"
           keyboardType="email-address"
           onFocus={() => setErrors({ ...errors, email: undefined })}
@@ -90,10 +94,11 @@ export default function RegisterForm({ onSubmit, isLoading = false }: RegisterFo
       <View className="mb-4">
         <Text className="mb-2 text-gray-700">Password</Text>
         <TextInput
-          className={`p-4 border rounded-md ${errors.password ? "border-red-500" : "border-gray-300"}`}
+          className={`rounded-md border bg-surface p-4 text-foreground ${errors.password ? "border-red-500" : "border-border"}`}
           value={password}
           onChangeText={setPassword}
           placeholder="Your password"
+          placeholderTextColor={themeColors.subtle}
           secureTextEntry
           onFocus={() => setErrors({ ...errors, password: undefined })}
         />
@@ -103,10 +108,11 @@ export default function RegisterForm({ onSubmit, isLoading = false }: RegisterFo
       <View className="mb-6">
         <Text className="mb-2 text-gray-700">Confirm Password</Text>
         <TextInput
-          className={`p-4 border rounded-md ${errors.confirmPassword ? "border-red-500" : "border-gray-300"}`}
+          className={`rounded-md border bg-surface p-4 text-foreground ${errors.confirmPassword ? "border-red-500" : "border-border"}`}
           value={confirmPassword}
           onChangeText={setConfirmPassword}
           placeholder="Confirm your password"
+          placeholderTextColor={themeColors.subtle}
           secureTextEntry
           onFocus={() => setErrors({ ...errors, confirmPassword: undefined })}
         />
@@ -121,7 +127,7 @@ export default function RegisterForm({ onSubmit, isLoading = false }: RegisterFo
         disabled={isLoading}
       />
 
-      {isLoading && <ActivityIndicator size="small" color="#4338ca" className="mt-4" />}
+      {isLoading && <ActivityIndicator size="small" color={themeColors.primary} className="mt-4" />}
     </View>
   );
 }

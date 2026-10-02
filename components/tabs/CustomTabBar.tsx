@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, Platform } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+import { useThemeColors } from "@/constants/theme";
 
 const TAB_ICONS: Record<
   string,
@@ -19,14 +20,16 @@ const TAB_ICONS: Record<
 };
 
 export default function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
+  const themeColors = useThemeColors();
+
   return (
     <View
-      className={`flex-row bg-white border-t border-slate-100 px-1 justify-around items-center ${
+      className={`flex-row bg-surface border-t border-slate-100 px-1 justify-around items-center ${
         Platform.OS === "ios" ? "pb-7 h-20" : "pb-2 h-16"
       }`}
     >
       {state.routes.map((route, index) => {
-        if (route.name === "payment/[id]") {
+        if (route.name === "payment/[id]" || route.name === "settings") {
           return null;
         }
 
@@ -57,8 +60,8 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
               activeOpacity={0.8}
               className="-mt-5 items-center justify-center flex-1"
             >
-              <View className="w-10 h-10 rounded-xl bg-indigo-400 items-center justify-center shadow-md shadow-indigo-100">
-                <Ionicons name="add" size={28} color="#FFFFFF" />
+              <View className="w-10 h-10 rounded-xl bg-primary items-center justify-center shadow-md shadow-indigo-100">
+                <Ionicons name="add" size={28} color={themeColors.primaryForeground} />
               </View>
               <Text className="text-[10px] font-semibold text-slate-500 mt-1">
                 {iconConfig.label}
@@ -77,7 +80,7 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
             <Ionicons
               name={isFocused ? iconConfig.active : iconConfig.inactive}
               size={22}
-              color={isFocused ? "#6C5CE7" : "#94A3B8"}
+              color={isFocused ? themeColors.primary : themeColors.subtle}
             />
             <Text
               className={`text-[10px] mt-1 ${

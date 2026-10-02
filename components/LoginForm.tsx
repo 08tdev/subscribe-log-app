@@ -3,6 +3,7 @@ import { View, TextInput, Text, Alert, ActivityIndicator, TouchableOpacity } fro
 
 import Button from "./Button";
 import { LoginCredentials } from "../types/user";
+import { useThemeColors } from "@/constants/theme";
 
 interface LoginFormProps {
   onSubmit: (credentials: LoginCredentials) => Promise<void>;
@@ -13,6 +14,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const themeColors = useThemeColors();
 
   const validate = (): boolean => {
     const newErrors: { email?: string; password?: string } = {};
@@ -48,10 +50,11 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
       <View className="mb-4">
         <Text className="mb-2 text-gray-700">Email</Text>
         <TextInput
-          className={`p-4 border rounded-md ${errors.email ? "border-red-500" : "border-gray-300"}`}
+          className={`rounded-md border bg-surface p-4 text-foreground ${errors.email ? "border-red-500" : "border-border"}`}
           value={email}
           onChangeText={setEmail}
           placeholder="your@email.com"
+          placeholderTextColor={themeColors.subtle}
           autoCapitalize="none"
           keyboardType="email-address"
           onFocus={() => setErrors({ ...errors, email: undefined })}
@@ -62,10 +65,11 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
       <View className="mb-6">
         <Text className="mb-2 text-gray-700">Password</Text>
         <TextInput
-          className={`p-4 border rounded-md ${errors.password ? "border-red-500" : "border-gray-300"}`}
+          className={`rounded-md border bg-surface p-4 text-foreground ${errors.password ? "border-red-500" : "border-border"}`}
           value={password}
           onChangeText={setPassword}
           placeholder="Your password"
+          placeholderTextColor={themeColors.subtle}
           secureTextEntry
           onFocus={() => setErrors({ ...errors, password: undefined })}
         />
@@ -90,7 +94,7 @@ export default function LoginForm({ onSubmit, isLoading = false }: LoginFormProp
         disabled={isLoading}
       />
 
-      {isLoading && <ActivityIndicator size="small" color="#4338ca" className="mt-4" />}
+      {isLoading && <ActivityIndicator size="small" color={themeColors.primary} className="mt-4" />}
     </View>
   );
 }

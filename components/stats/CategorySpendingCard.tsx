@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
+import { useThemeColors } from "@/constants/theme";
 
 type CategorySpending = {
   title: string;
@@ -8,8 +9,7 @@ type CategorySpending = {
   amount: string;
   share?: string;
   icon: "play-circle-outline" | "bulb-outline" | "bag-handle-outline";
-  iconColor: string;
-  iconBackground: string;
+  iconTone: "primary" | "success" | "subtle";
   inactive?: boolean;
   savings?: string;
 };
@@ -22,8 +22,7 @@ const CATEGORIES: CategorySpending[] = [
     amount: "₩31,900",
     share: "52.4%",
     icon: "play-circle-outline",
-    iconColor: "#6553E8",
-    iconBackground: "#E5E2FF",
+    iconTone: "primary",
   },
   {
     title: "생산성 / AI 도구",
@@ -32,16 +31,14 @@ const CATEGORIES: CategorySpending[] = [
     amount: "₩29,000",
     share: "47.6%",
     icon: "bulb-outline",
-    iconColor: "#078E7A",
-    iconBackground: "#BDF7E9",
+    iconTone: "success",
   },
   {
     title: "쇼핑 / 멤버십",
     detail: "쿠팡 로켓와우 (3월 해지됨)",
     amount: "₩0",
     icon: "bag-handle-outline",
-    iconColor: "#9BA2B3",
-    iconBackground: "#F0F2F8",
+    iconTone: "subtle",
     inactive: true,
     savings: "₩7,890 절약!",
   },
@@ -51,33 +48,35 @@ function CategoryHeader() {
   return (
     <View className="flex-row items-center justify-between gap-2">
       <View className="min-w-0">
-        <Text className="text-[14px] font-bold text-[#20243A]">카테고리별 지출</Text>
-        <Text className="mt-0.5 text-[9px] text-[#65708A]">
+        <Text className="text-[14px] font-bold text-foreground">카테고리별 지출</Text>
+        <Text className="mt-0.5 text-[9px] text-muted">
           가장 많은 지출은 콘텐츠/엔터테인먼트
         </Text>
       </View>
-      <Text className="shrink-0 text-[9px] font-semibold text-[#59627B]">총 2개 분야</Text>
+      <Text className="shrink-0 text-[9px] font-semibold text-muted">총 2개 분야</Text>
     </View>
   );
 }
 
 function SpendingDistribution() {
+  const themeColors = useThemeColors();
+
   return (
     <View className="mt-2.5">
-      <View className="h-2 overflow-hidden rounded-full bg-[#E3F7F0]">
+      <View className="h-2 overflow-hidden rounded-full bg-success-soft">
         <View className="h-full flex-row">
-          <View className="h-full bg-[#5546D8]" style={{ width: "52.4%" }} />
-          <View className="h-full flex-1 bg-[#078E7A]" />
+          <View className="h-full bg-primary" style={{ width: "52.4%" }} />
+          <View className="h-full flex-1 bg-success" />
         </View>
       </View>
       <View className="mt-1.5 flex-row flex-wrap items-center justify-between gap-x-2 gap-y-1">
         <View className="flex-row items-center gap-1">
-          <View className="h-1.5 w-1.5 rounded-full bg-[#5546D8]" />
-          <Text className="text-[9px] text-[#30364B]">엔터/OTT (52.4%)</Text>
+          <View className="h-1.5 w-1.5 rounded-full bg-primary" />
+          <Text className="text-[9px] text-foreground">엔터/OTT (52.4%)</Text>
         </View>
         <View className="flex-row items-center gap-1">
-          <View className="h-1.5 w-1.5 rounded-full bg-[#078E7A]" />
-          <Text className="text-[9px] text-[#30364B]">생산성/AI (47.6%)</Text>
+          <View className="h-1.5 w-1.5 rounded-full bg-success" />
+          <Text className="text-[9px] text-foreground">생산성/AI (47.6%)</Text>
         </View>
       </View>
     </View>
@@ -85,30 +84,34 @@ function SpendingDistribution() {
 }
 
 function CategoryRow({ category }: { category: CategorySpending }) {
-  const titleColor = category.inactive ? "text-[#777E90]" : "text-[#252B40]";
-  const detailColor = category.inactive ? "text-[#9BA1B0]" : "text-[#59627B]";
-  const amountColor = category.inactive ? "text-[#168C78]" : "text-[#20243A]";
+  const themeColors = useThemeColors();
+  const titleColor = category.inactive ? "text-subtle" : "text-foreground";
+  const detailColor = category.inactive ? "text-subtle" : "text-muted";
+  const amountColor = category.inactive ? "text-success" : "text-foreground";
 
   return (
     <View
-      className={`min-h-[64px] flex-row items-center gap-2.5 rounded-[12px] px-2.5 py-2 ${category.inactive ? "bg-[#F7F8FC]" : "bg-[#F0F2FF]"}`}
+      className={`min-h-[64px] flex-row items-center gap-2.5 rounded-[12px] px-2.5 py-2 ${category.inactive ? "bg-surface-muted" : "bg-primary-soft"}`}
     >
       <View
-        className="h-8 w-8 shrink-0 items-center justify-center rounded-[10px]"
-        style={{ backgroundColor: category.iconBackground }}
+        className={`h-8 w-8 shrink-0 items-center justify-center rounded-[10px] ${category.iconTone === "success" ? "bg-success-soft" : category.iconTone === "subtle" ? "bg-surface-muted" : "bg-primary-soft"}`}
       >
-        <Ionicons name={category.icon} size={17} color={category.iconColor} />
+        <Ionicons
+          name={category.icon}
+          size={17}
+          color={category.iconTone === "success" ? themeColors.success : category.iconTone === "subtle" ? themeColors.subtle : themeColors.primary}
+        />
       </View>
       <View className="min-w-0 flex-1">
         <View className="flex-row flex-wrap items-center gap-1">
           <Text className={`text-[10px] font-semibold ${titleColor}`}>{category.title}</Text>
           {category.count ? (
-            <View className="rounded-full bg-[#E5E2FF] px-1.5 py-0.5">
-              <Text className="text-[8px] font-medium text-[#5546D8]">{category.count}</Text>
+            <View className="rounded-full bg-primary-soft px-1.5 py-0.5">
+              <Text className="text-[8px] font-medium text-primary">{category.count}</Text>
             </View>
           ) : (
-            <View className="rounded-full bg-[#FFE5E7] px-1.5 py-0.5">
-              <Text className="text-[8px] font-medium text-[#D84D59]">해지 완료</Text>
+            <View className="rounded-full bg-danger-soft px-1.5 py-0.5">
+              <Text className="text-[8px] font-medium text-danger">해지 완료</Text>
             </View>
           )}
         </View>
@@ -119,9 +122,9 @@ function CategoryRow({ category }: { category: CategorySpending }) {
       <View className="w-[58px] shrink-0 items-end">
         <Text className={`text-[13px] font-bold ${amountColor}`}>{category.amount}</Text>
         {category.share ? (
-          <Text className="mt-0.5 text-[9px] font-medium text-[#65708A]">{category.share}</Text>
+          <Text className="mt-0.5 text-[9px] font-medium text-muted">{category.share}</Text>
         ) : (
-          <Text className="mt-0.5 text-right text-[8px] font-semibold leading-[10px] text-[#168C78]">
+          <Text className="mt-0.5 text-right text-[8px] font-semibold leading-[10px] text-success">
             {category.savings}
           </Text>
         )}
@@ -132,7 +135,7 @@ function CategoryRow({ category }: { category: CategorySpending }) {
 
 export default function CategorySpendingCard() {
   return (
-    <View className="w-[90%] max-w-[480px] self-center rounded-[16px] border border-[#EEF0F8] bg-white p-3">
+    <View className="w-[90%] max-w-[480px] self-center rounded-[16px] border border-border bg-surface p-3">
       <CategoryHeader />
       <SpendingDistribution />
       <View className="mt-3 gap-2">

@@ -3,12 +3,12 @@ import React from "react";
 
 export default function AddScreen() {
   return (
-    <ScrollView className="flex-1 bg-white">
+    <ScrollView className="flex-1 bg-surface">
       <View className="p-6">
         <View className="bg-indigo-50 rounded-xl p-5 mb-6">
           <Text className="text-xl font-bold text-indigo-800 mb-2">👋 Welcome!</Text>
           <Text className="text-indigo-700 mb-4">You've successfully logged into the app.</Text>
-          <View className="bg-white p-4 rounded-lg">
+          <View className="bg-surface p-4 rounded-lg">
             <Text className="text-gray-500 mb-1">Your email:</Text>
             <Text className="text-gray-500 mb-1">User ID:</Text>
           </View>

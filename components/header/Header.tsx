@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, SafeAreaView, Platform, StatusBar } from 
 import { Ionicons } from "@expo/vector-icons";
 import Logo from "../logo/Logo";
 import { useColorScheme } from "nativewind";
-import { color } from "@/constants/color";
+import { useThemeColors } from "@/constants/theme";
 
 export default function Header({
   title,
@@ -19,20 +19,32 @@ export default function Header({
 }: HeaderProps) {
   const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 0;
   const { colorScheme } = useColorScheme();
-
-  const iconColor = colorScheme === "dark" ? color.light : color.dark;
+  const themeColors = useThemeColors();
 
   return (
     <SafeAreaView className="bg-card" style={{ paddingTop: statusBarHeight }}>
       <View
-        className="h-14 flex-row items-center justify-between px-4 border-b border-solid border-slate-200 dark:border-slate-800"
+        className="h-14 flex-row items-center justify-between px-4 border-b border-solid border-border"
         style={{ borderBottomWidth: 1 }}
       >
         <View className="flex-1 flex-row items-center justify-start">
           {showBack ? (
-            <TouchableOpacity onPress={onBackPress} hitSlop={10} className="p-1">
-              <Ionicons name="chevron-back" size={24} color={iconColor} />
-            </TouchableOpacity>
+            <View className="flex-row items-center gap-2">
+              <TouchableOpacity
+                accessibilityRole="button"
+                accessibilityLabel="뒤로가기"
+                onPress={onBackPress}
+                hitSlop={10}
+                className="p-1"
+              >
+                <Ionicons name="chevron-back" size={24} color={themeColors.foreground} />
+              </TouchableOpacity>
+              {!!title && (
+                <Text className="text-base font-bold text-foreground" numberOfLines={1}>
+                  {title}
+                </Text>
+              )}
+            </View>
           ) : (
             showHome && (
               <TouchableOpacity
@@ -55,13 +67,18 @@ export default function Header({
         {/* [오른쪽 영역] */}
         <View className="flex-row items-center gap-2 justify-end">
           {rightIcon && (
-            <TouchableOpacity onPress={onRightIconPress} className="p-1">
-              <Ionicons name={rightIcon} size={22} color={iconColor} />
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityLabel={rightIcon === "search-outline" ? "설정 검색" : "닫기"}
+              onPress={onRightIconPress}
+              className="p-1"
+            >
+              <Ionicons name={rightIcon} size={22} color={themeColors.foreground} />
             </TouchableOpacity>
           )}
           {showSetting && (
             <TouchableOpacity onPress={onSettingIconPress} className="p-1">
-              <Ionicons name="settings-outline" size={22} color={iconColor} />
+              <Ionicons name="settings-outline" size={22} color={themeColors.foreground} />
             </TouchableOpacity>
           )}
         </View>

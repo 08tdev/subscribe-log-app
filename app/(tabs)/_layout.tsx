@@ -20,6 +20,12 @@ export default function TabLayout() {
           href: null, // 👈 하단 탭바 렌더링에서 제외시킵니다.
         }}
       />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          href: null, // 👈 하단 탭바 렌더링에서 제외시킵니다.
+        }}
+      />
     </Tabs>
   );
 }

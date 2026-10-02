@@ -22,7 +22,7 @@ export default function LoginScreen() {
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
-      <View className="flex-1 justify-center items-center p-4 bg-white">
+      <View className="flex-1 justify-center items-center p-4 bg-surface">
         <View className="w-full max-w-sm">
           {/* Logo placeholder - replace with your actual logo */}
           <View className="items-center mb-8">

@@ -1,14 +1,22 @@
-import { View, ScrollView } from "react-native";
+import { Alert, ScrollView, View } from "react-native";
 import Header from "@/components/header/Header";
 import ProfileRewardsCard from "@/components/profile/ProfileRewardsCard";
 import MonthlyBudgetLimitCard from "@/components/profile/MonthlyBudgetLimitCard";
 import PaymentConnectionsCard from "@/components/profile/PaymentConnectionsCard";
 import SmartAlertSettingsCard from "@/components/profile/SmartAlertSettingsCard";
+import ProfileFooter from "@/components/profile/ProfileFooter";
 import { useAuth } from "@/context/AuthContext";
 import { router } from "expo-router";
 
 export default function ProfileScreen() {
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    Alert.alert("로그아웃", "로그아웃 하시겠어요?", [
+      { text: "취소", style: "cancel" },
+      { text: "로그아웃", onPress: logout, style: "destructive" },
+    ]);
+  };
 
   return (
     <View className="flex-1 bg-card">
@@ -32,6 +40,7 @@ export default function ProfileScreen() {
           <PaymentConnectionsCard />
           <SmartAlertSettingsCard />
         </View>
+        <ProfileFooter onLogout={handleLogout} />
       </ScrollView>
     </View>
   );

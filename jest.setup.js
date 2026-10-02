@@ -5,6 +5,11 @@ global.jest = jest;
 jest.mock("nativewind", () => ({
   withExpoSnack: () => component => component,
   styled: component => component,
+  useColorScheme: () => ({
+    colorScheme: "light",
+    toggleColorScheme: jest.fn(),
+    setColorScheme: jest.fn(),
+  }),
 }));
 
 jest.mock("react-native", () => {

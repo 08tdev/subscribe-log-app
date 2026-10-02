@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text, View } from "react-native";
+import { useThemeColors } from "@/constants/theme";
 
 type SubscriptionBundleRecommendationsProps = {
   onSelectBundle?: (bundle: string) => void;
@@ -75,19 +76,20 @@ function BundleCard({
   offer: BundleOffer;
   onSelect?: (bundle: string) => void;
 }) {
+  const themeColors = useThemeColors();
   const theme =
     offer.theme === "purple"
       ? {
-          tag: "bg-[#E8E3FF] text-[#5B4BD1]",
-          hint: "text-[#D94B50]",
-          footer: "bg-[#F3F4FF]",
-          savings: "text-[#5148D2]",
+          tag: "bg-primary-soft text-primary",
+          hint: "text-danger",
+          footer: "bg-primary-soft",
+          savings: "text-primary",
         }
       : {
-          tag: "bg-[#D7FBF2] text-[#078E7A]",
-          hint: "text-[#6553E8]",
-          footer: "bg-[#F1FBF8]",
-          savings: "text-[#078E7A]",
+          tag: "bg-success-soft text-success",
+          hint: "text-primary",
+          footer: "bg-success-soft",
+          savings: "text-success",
         };
 
   return (
@@ -95,7 +97,7 @@ function BundleCard({
       accessibilityRole="button"
       accessibilityLabel={`${offer.title} 추천 번들`}
       onPress={() => onSelect?.(offer.id)}
-      className="rounded-[14px] border border-[#EEF0F8] bg-white p-3 active:opacity-80"
+      className="rounded-[14px] border border-border bg-surface p-3 active:opacity-80"
     >
       <View className="mb-2 flex-row items-center justify-between gap-2">
         <Text className={`rounded-full px-2 py-1 text-[9px] font-semibold ${theme.tag}`}>
@@ -103,9 +105,9 @@ function BundleCard({
         </Text>
         <View className="min-w-0 flex-row items-center gap-1">
           {offer.theme === "purple" ? (
-            <Ionicons name="pricetag-outline" size={11} color="#D94B50" />
+            <Ionicons name="pricetag-outline" size={11} color={themeColors.danger} />
           ) : (
-            <Ionicons name="sparkles" size={11} color="#6553E8" />
+            <Ionicons name="sparkles" size={11} color={themeColors.primary} />
           )}
           <Text className={`text-[9px] font-semibold ${theme.hint}`} numberOfLines={1}>
             {offer.hint}
@@ -115,16 +117,16 @@ function BundleCard({
       <View className="flex-row items-center gap-2.5">
         <BundleServiceMarks marks={offer.marks} />
         <View className="min-w-0 flex-1">
-          <Text className="text-[11px] font-bold text-[#20243A]" numberOfLines={1}>
+          <Text className="text-[11px] font-bold text-foreground" numberOfLines={1}>
             {offer.title}
           </Text>
-          <Text className="mt-0.5 text-[9px] leading-[13px] text-[#687189]" numberOfLines={2}>
+          <Text className="mt-0.5 text-[9px] leading-[13px] text-muted" numberOfLines={2}>
             {offer.description}
           </Text>
         </View>
       </View>
       <View className={`mt-2.5 min-h-[30px] flex-row flex-wrap items-center justify-between gap-x-2 gap-y-1 rounded-[10px] px-2.5 py-1.5 ${theme.footer}`}>
-        <Text className="min-w-0 flex-1 text-[9px] text-[#59627B]">{offer.footer}</Text>
+        <Text className="min-w-0 flex-1 text-[9px] text-muted">{offer.footer}</Text>
         {offer.savings && (
           <Text className={`shrink-0 text-[9px] font-bold ${theme.savings}`}>{offer.savings}</Text>
         )}
@@ -134,25 +136,27 @@ function BundleCard({
 }
 
 function TrialServicesCard({ onPress }: { onPress?: () => void }) {
+  const themeColors = useThemeColors();
+
   return (
     <Pressable
       accessibilityRole="button"
       onPress={onPress}
-      className="min-h-[76px] flex-row items-center gap-2.5 rounded-[14px] bg-[#EEF1FF] px-3 py-2.5 active:opacity-80"
+      className="min-h-[76px] flex-row items-center gap-2.5 rounded-[14px] bg-primary-soft px-3 py-2.5 active:opacity-80"
     >
-      <View className="h-9 w-9 shrink-0 items-center justify-center rounded-[12px] bg-[#6D5CEB]">
-        <Ionicons name="gift-outline" size={18} color="#FFFFFF" />
+      <View className="h-9 w-9 shrink-0 items-center justify-center rounded-[12px] bg-primary">
+        <Ionicons name="gift-outline" size={18} color={themeColors.primaryForeground} />
       </View>
       <View className="min-w-0 flex-1">
-        <Text className="text-[9px] font-semibold text-[#E04C56]">놓치면 아까운 0원 혜택</Text>
-        <Text className="mt-0.5 text-[11px] font-bold leading-[15px] text-[#20243A]">
+        <Text className="text-[9px] font-semibold text-danger">놓치면 아까운 0원 혜택</Text>
+        <Text className="mt-0.5 text-[11px] font-bold leading-[15px] text-foreground">
           첫 달 0원 무료 체험 서비스 모음 (6개)
         </Text>
-        <Text className="mt-0.5 text-[9px] leading-[13px] text-[#65708A]" numberOfLines={2}>
+        <Text className="mt-0.5 text-[9px] leading-[13px] text-muted" numberOfLines={2}>
           밀리의 서재, 왓챠, 티빙 외 한정 프로모션 진행 중
         </Text>
       </View>
-      <Ionicons name="chevron-forward" size={15} color="#65708A" />
+      <Ionicons name="chevron-forward" size={15} color={themeColors.muted} />
     </Pressable>
   );
 }
@@ -162,11 +166,13 @@ export default function SubscriptionBundleRecommendations({
   onBrowseTrials,
   onSearchServices,
 }: SubscriptionBundleRecommendationsProps) {
+  const themeColors = useThemeColors();
+
   return (
     <View className="w-[94%] max-w-[480px] self-center gap-2.5">
       <View className="flex-row items-center gap-1.5">
-        <Text className="text-[15px] font-bold text-[#20243A]">알뜰하게 묶어쓰는 추천 번들</Text>
-        <Ionicons name="bulb" size={15} color="#F3B83F" />
+        <Text className="text-[15px] font-bold text-foreground">알뜰하게 묶어쓰는 추천 번들</Text>
+        <Ionicons name="bulb" size={15} color={themeColors.warning} />
       </View>
       <View className="gap-2">
         {BUNDLES.map(offer => (
@@ -177,11 +183,11 @@ export default function SubscriptionBundleRecommendations({
       <Pressable
         accessibilityRole="button"
         onPress={onSearchServices}
-        className="self-center flex-row items-center gap-1 rounded-full bg-[#F0F1FF] px-3 py-1.5 active:opacity-70"
+        className="self-center flex-row items-center gap-1 rounded-full bg-primary-soft px-3 py-1.5 active:opacity-70"
       >
-        <Ionicons name="search" size={10} color="#6553E8" />
-        <Text className="text-[9px] text-[#59627B]">찾는 구독이 없나요?</Text>
-        <Text className="text-[9px] font-medium text-[#6553E8]">직접 서비스 검색하기</Text>
+        <Ionicons name="search" size={10} color={themeColors.primary} />
+        <Text className="text-[9px] text-muted">찾는 구독이 없나요?</Text>
+        <Text className="text-[9px] font-medium text-primary">직접 서비스 검색하기</Text>
       </Pressable>
     </View>
   );

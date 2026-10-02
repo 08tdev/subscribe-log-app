@@ -2,6 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import Svg, { Defs, LinearGradient, Rect, Stop } from "react-native-svg";
+import { useThemeColors } from "@/constants/theme";
 
 type FeaturedOffersSectionProps = {
   onSelectCategory?: (category: string) => void;
@@ -18,6 +19,7 @@ const CATEGORIES = [
 
 function DealCategoryFilters({ onSelectCategory }: FeaturedOffersSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState("실시간 인기");
+  const themeColors = useThemeColors();
 
   return (
     <ScrollView
@@ -38,17 +40,17 @@ function DealCategoryFilters({ onSelectCategory }: FeaturedOffersSectionProps) {
               setSelectedCategory(category.label);
               onSelectCategory?.(category.label);
             }}
-            className={`h-7 shrink-0 flex-row items-center gap-1 rounded-full px-3 ${selected ? "bg-[#684CE1]" : "border border-[#E9EAF2] bg-white"}`}
+            className={`h-7 shrink-0 flex-row items-center gap-1 rounded-full px-3 ${selected ? "bg-primary" : "border border-border bg-surface"}`}
           >
             {category.icon && (
               <Ionicons
                 name={category.icon}
                 size={12}
-                color={selected ? "#FFFFFF" : "#555D73"}
+                color={selected ? themeColors.primaryForeground : themeColors.muted}
               />
             )}
             <Text
-              className={`text-[10px] font-medium ${selected ? "text-white" : "text-[#30364B]"}`}
+              className={`text-[10px] font-medium ${selected ? "text-primary-foreground" : "text-foreground"}`}
             >
               {category.label}
             </Text>
@@ -86,7 +88,7 @@ function FeaturedPromotionCard({ onViewBenefits }: Pick<FeaturedOffersSectionPro
       <PromotionBackdrop />
       <View className="relative z-10 w-[84%]" style={{ zIndex: 1 }}>
         <View className="self-start rounded-full bg-[#FFFFFF]/20 px-2 py-1">
-          <Text className="text-[9px] font-semibold text-[#BFEDE4]">기간 한정 특가</Text>
+          <Text className="text-[9px] font-semibold text-success">기간 한정 특가</Text>
         </View>
         <Text className="mt-2 text-[14px] font-bold leading-[19px] text-white">
           쥐도 새도 모르게 챙기는 제휴 할인 혜택 🏠
