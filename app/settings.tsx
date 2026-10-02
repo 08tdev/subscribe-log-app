@@ -3,6 +3,7 @@ import { ScrollView, View } from "react-native";
 import Header from "@/components/header/Header";
 import SettingsContent from "@/components/settings/SettingsContent";
 import { router } from "expo-router";
+import ResponsiveContent from "@/components/layout/ResponsiveContent";
 
 export default function SettingsScreen() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -26,11 +27,13 @@ export default function SettingsScreen() {
         keyboardShouldPersistTaps="handled"
         className="flex-1 bg-background"
       >
-        <SettingsContent
-          searchOpen={searchOpen}
-          searchValue={searchValue}
-          onSearchValueChange={setSearchValue}
-        />
+        <ResponsiveContent maxWidth={900} className="items-center">
+          <SettingsContent
+            searchOpen={searchOpen}
+            searchValue={searchValue}
+            onSearchValueChange={setSearchValue}
+          />
+        </ResponsiveContent>
       </ScrollView>
     </View>
   );

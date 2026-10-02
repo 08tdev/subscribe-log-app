@@ -6,6 +6,7 @@ import { useColorScheme } from "nativewind";
 import Button from "../../components/Button";
 import { useAuth } from "../../context/AuthContext";
 import { useThemeColors } from "../../constants/theme";
+import ResponsiveContent from "@/components/layout/ResponsiveContent";
 
 type SettingItemProps = {
   icon: keyof typeof Ionicons.glyphMap;
@@ -47,12 +48,13 @@ const SettingItem: React.FC<SettingItemProps> = ({
         <Switch
           value={value}
           onValueChange={onValueChange}
-          activeThumbColor={themeColors.primary}
           trackColor={{ false: themeColors.border, true: themeColors.primary }}
           thumbColor={themeColors.switchThumb}
         />
       )}
-      {showArrow && !showToggle && <Ionicons name="chevron-forward" size={20} color={themeColors.subtle} />}
+      {showArrow && !showToggle && (
+        <Ionicons name="chevron-forward" size={20} color={themeColors.subtle} />
+      )}
     </TouchableOpacity>
   );
 };
@@ -78,7 +80,7 @@ export default function SettingsScreen() {
 
   return (
     <ScrollView className="flex-1 bg-background">
-      <View className="px-4 py-6">
+      <ResponsiveContent maxWidth={760} className="py-6">
         <Text className="px-4 pb-2 text-sm font-semibold text-gray-500 uppercase">Preferences</Text>
         <View className="bg-surface rounded-xl mb-6">
           <SettingItem
@@ -148,7 +150,7 @@ export default function SettingsScreen() {
         </View>
 
         <Button label="Logout" onPress={handleLogout} variant="danger" />
-      </View>
+      </ResponsiveContent>
     </ScrollView>
   );
 }

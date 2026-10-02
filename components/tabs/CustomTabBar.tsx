@@ -1,8 +1,9 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Platform } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { useThemeColors } from "@/constants/theme";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const TAB_ICONS: Record<
   string,
@@ -21,12 +22,12 @@ const TAB_ICONS: Record<
 
 export default function CustomTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const themeColors = useThemeColors();
+  const insets = useSafeAreaInsets();
 
   return (
     <View
-      className={`flex-row bg-surface border-t border-slate-100 px-1 justify-around items-center ${
-        Platform.OS === "ios" ? "pb-7 h-20" : "pb-2 h-16"
-      }`}
+      className="min-h-[56px] flex-row items-center justify-around border-t border-border bg-surface px-1 pt-1"
+      style={{ paddingBottom: Math.max(insets.bottom, 6) }}
     >
       {state.routes.map((route, index) => {
         if (route.name === "payment/[id]" || route.name === "settings") {
@@ -58,10 +59,10 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
               key={route.key}
               onPress={onPress}
               activeOpacity={0.8}
-              className="-mt-5 items-center justify-center flex-1"
+              className="min-h-[48px] flex-1 items-center justify-center"
             >
-              <View className="w-10 h-10 rounded-xl bg-primary items-center justify-center shadow-md shadow-indigo-100">
-                <Ionicons name="add" size={28} color={themeColors.primaryForeground} />
+              <View className="h-11 w-11 items-center justify-center rounded-xl bg-primary shadow-md shadow-indigo-100">
+                <Ionicons name="add" size={24} color={themeColors.primaryForeground} />
               </View>
               <Text className="text-[10px] font-semibold text-slate-500 mt-1">
                 {iconConfig.label}
@@ -75,7 +76,7 @@ export default function CustomTabBar({ state, descriptors, navigation }: BottomT
             key={route.key}
             onPress={onPress}
             activeOpacity={0.7}
-            className="flex-1 items-center justify-center py-1"
+            className="min-h-[48px] flex-1 items-center justify-center py-1"
           >
             <Ionicons
               name={isFocused ? iconConfig.active : iconConfig.inactive}

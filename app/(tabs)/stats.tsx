@@ -7,6 +7,7 @@ import MonthlySpendingChart from "@/components/stats/MonthlySpendingChart";
 import CategorySpendingCard from "@/components/stats/CategorySpendingCard";
 import SmartReportSection from "@/components/stats/SmartReportSection";
 import { router } from "expo-router";
+import ResponsiveContent from "@/components/layout/ResponsiveContent";
 
 export default function StatsScreen() {
   return (
@@ -25,14 +26,14 @@ export default function StatsScreen() {
         keyboardShouldPersistTaps="handled"
         className="w-full flex-1 items-center gap-y-2"
       >
-        <View className="w-full flex-column items-center gap-2">
+        <ResponsiveContent maxWidth={1120} className="items-center gap-2">
           <StatsMonthSelector />
           <SavingsReportBanner />
           <MonthlySpendingSummary />
           <MonthlySpendingChart />
           <CategorySpendingCard />
           <SmartReportSection />
-        </View>
+        </ResponsiveContent>
         <View className="flex-1" />
       </ScrollView>
     </View>

@@ -3,6 +3,7 @@ import { View, Text, Image, ScrollView } from "react-native";
 
 import Button from "../../components/Button";
 import { useAuth } from "../../context/AuthContext";
+import ResponsiveContent from "@/components/layout/ResponsiveContent";
 
 export default function ProfileScreen() {
   const { user } = useAuth();
@@ -16,7 +17,7 @@ export default function ProfileScreen() {
 
   return (
     <ScrollView className="flex-1 bg-card">
-      <View className="items-center p-6">
+      <ResponsiveContent maxWidth={760} className="items-center py-6">
         <View className="mb-6 items-center">
           {avatar ? (
             <Image source={{ uri: avatar }} className="w-28 h-28 rounded-full" />
@@ -69,7 +70,7 @@ export default function ProfileScreen() {
           variant="primary"
           fullWidth={false}
         />
-      </View>
+      </ResponsiveContent>
     </ScrollView>
   );
 }

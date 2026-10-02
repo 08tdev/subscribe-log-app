@@ -1,7 +1,8 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable, Text, TouchableHighlight, View } from "react-native";
-import { router } from "expo-router";
+import { useState } from "react";
 import { useThemeColors } from "@/constants/theme";
+import SubscriptionDetailModal from "@/components/card/SubscriptionDetailModal";
 
 export type UpcomingPayment = {
   id: string;
@@ -135,16 +136,12 @@ function UpcomingPaymentRow({ payment }: { payment: UpcomingPayment }) {
       <PaymentServiceIcon icon={payment.icon} />
       <View className="min-w-0 flex-1">
         <View className="flex-row items-center gap-1">
-          <Text className="shrink text-[10px] font-bold text-foreground" numberOfLines={1}>
+          <Text className="min-w-0 shrink text-[10px] font-bold text-foreground" numberOfLines={2}>
             {payment.name}
           </Text>
           {payment.badge && <ServiceBadge label={payment.badge} />}
         </View>
-        <Text
-          className="text-[8px] leading-3 text-muted"
-          numberOfLines={1}
-          ellipsizeMode="tail"
-        >
+        <Text className="text-[8px] leading-3 text-muted" numberOfLines={2}>
           {payment.detail}
         </Text>
       </View>
@@ -160,19 +157,28 @@ export default function UpcomingPaymentsSection({
   payments = DEFAULT_PAYMENTS,
   onViewAll,
 }: UpcomingPaymentsSectionProps) {
+  const [selectedPayment, setSelectedPayment] = useState<UpcomingPayment | null>(null);
+
   return (
-    <View className="w-[90%] self-center">
+    <View className="w-[90%] max-w-[480px] self-center">
       <UpcomingPaymentsHeader paymentCount={payments.length} onViewAll={onViewAll} />
       <View className="gap-2">
         {payments.map(payment => (
           <TouchableHighlight
-            onPress={() => router.push(`/payment/${payment.id}`)}
+            accessibilityRole="button"
+            accessibilityLabel={`${payment.name} 상세 정보 보기`}
+            onPress={() => setSelectedPayment(payment)}
             key={payment.id}
           >
             <UpcomingPaymentRow key={payment.id} payment={payment} />
           </TouchableHighlight>
         ))}
       </View>
+      <SubscriptionDetailModal
+        payment={selectedPayment}
+        visible={selectedPayment !== null}
+        onClose={() => setSelectedPayment(null)}
+      />
     </View>
   );
 }

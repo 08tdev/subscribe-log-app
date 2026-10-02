@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import { User, LoginCredentials } from "../types/user";
+import { User, LoginCredentials, RegisterCredentials } from "../types/user";
 
 const AUTH_TOKEN_KEY = "auth_token";
 const USER_DATA_KEY = "user_data";
@@ -42,7 +42,7 @@ export default class AuthService {
   /**
    * Register a new user
    */
-  static async register(userData: LoginCredentials & { name: string }): Promise<User> {
+  static async register(userData: RegisterCredentials): Promise<User> {
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
 
@@ -50,10 +50,11 @@ export default class AuthService {
         throw new Error("All fields are required");
       }
 
-      const newUser = {
+      const newUser: User = {
         ...MOCK_USER,
         email: userData.email,
         name: userData.name,
+        preferences: userData.preferences,
       };
 
       const token = `mock-jwt-token-${Date.now()}`;

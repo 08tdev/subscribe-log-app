@@ -44,9 +44,11 @@ function UnusedSubscriptionHeader({ subscriptionName, unusedDays }: UnusedSubscr
 
 function MonthlySavings({ amount }: { amount: string }) {
   return (
-    <View className="flex-row items-center justify-between rounded-[12px] bg-surface px-3 py-2.5">
-      <Text className="text-[11px] font-medium text-muted">지금 해지 시 다음 달 절약</Text>
-      <Text className="shrink-0 text-[14px] font-bold text-danger">+{amount}/월</Text>
+    <View className="flex-row flex-wrap items-center justify-between gap-x-2 gap-y-1 rounded-[12px] bg-surface px-3 py-2.5">
+      <Text className="min-w-0 flex-1 text-[11px] font-medium text-muted">
+        지금 해지 시 다음 달 절약
+      </Text>
+      <Text className="shrink-0 text-[12px] font-bold text-danger">+{amount}/월</Text>
     </View>
   );
 }
@@ -62,14 +64,14 @@ function SuggestionActions({ onRemindLater, onOpenCancellationGuide }: Suggestio
       <Pressable
         accessibilityRole="button"
         onPress={onRemindLater}
-        className="h-[34px] flex-1 items-center justify-center rounded-full bg-surface active:opacity-70"
+        className="min-h-11 flex-1 items-center justify-center rounded-full bg-surface px-2 py-2 active:opacity-70"
       >
         <Text className="text-[11px] font-semibold text-muted">다음에 보기</Text>
       </Pressable>
       <Pressable
         accessibilityRole="button"
         onPress={onOpenCancellationGuide}
-        className="h-[34px] flex-1 items-center justify-center rounded-full bg-danger active:opacity-80"
+        className="min-h-11 flex-1 items-center justify-center rounded-full bg-danger px-2 py-2 active:opacity-80"
       >
         <Text className="text-[11px] font-semibold text-white">해지 가이드 확인</Text>
       </Pressable>
@@ -85,7 +87,7 @@ export default function UnusedSubscriptionCard({
   onOpenCancellationGuide,
 }: UnusedSubscriptionCardProps) {
   return (
-    <View className="w-[90%] self-center gap-2 rounded-[18px] border border-danger-soft bg-danger-soft p-3">
+    <View className="w-[90%] max-w-[480px] self-center gap-2 rounded-[18px] border border-danger-soft bg-danger-soft p-3">
       <UnusedSubscriptionHeader subscriptionName={subscriptionName} unusedDays={unusedDays} />
       <MonthlySavings amount={monthlySavings} />
       <SuggestionActions

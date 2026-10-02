@@ -26,7 +26,7 @@ function PaymentNoticeIcon() {
 
 function PaymentNoticeTitle({ paymentCount }: PaymentNoticeTitleProps) {
   return (
-    <Text className="text-[15px] font-semibold text-foreground" numberOfLines={1}>
+    <Text className="text-[13px] font-semibold leading-[18px] text-foreground" numberOfLines={2}>
       이번 주 결제 예정 <Text className="font-bold text-danger">{paymentCount}건</Text>
       <Text className="font-medium text-foreground"> · 점검 알림</Text>
     </Text>
@@ -49,7 +49,7 @@ function PaymentNoticeDetails({
   return (
     <View className="min-w-0 flex-1 gap-0.5">
       <PaymentNoticeTitle paymentCount={paymentCount} />
-      <Text className="text-[15px] leading-5 text-muted" numberOfLines={1} ellipsizeMode="tail">
+      <Text className="text-[11px] leading-[15px] text-muted" numberOfLines={2}>
         {paymentDay} {serviceName} {paymentAmount} 출금 전 잔액을 확인해 주세요
       </Text>
     </View>
@@ -70,9 +70,9 @@ export default function WeeklyPaymentCard({
   return (
     <TouchableHighlight
       onPress={() => router.push("/payment")}
-      className="w-[90%] rounded-[22px] bg-primary-soft px-4 py-3.5"
+      className="w-[90%] max-w-[480px] rounded-[22px] bg-primary-soft px-3 py-3.5 sm:px-4"
     >
-      <View className="w-full self-center flex-row items-center gap-4">
+      <View className="w-full self-center flex-row items-center gap-2.5 sm:gap-4">
         <PaymentNoticeIcon />
         <PaymentNoticeDetails
           paymentCount={paymentCount}

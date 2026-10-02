@@ -3,6 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect, useCallback } from "react";
 import { Text, View, ActivityIndicator } from "react-native";
 import { useColorScheme } from "nativewind";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useThemeColors } from "@/constants/theme";
 import { AuthProvider, useAuth } from "../context/AuthContext";
 import "../global.css";
@@ -81,8 +82,10 @@ function AuthRoot() {
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <AuthRoot />
-    </AuthProvider>
+    <SafeAreaProvider>
+      <AuthProvider>
+        <AuthRoot />
+      </AuthProvider>
+    </SafeAreaProvider>
   );
 }

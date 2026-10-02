@@ -7,6 +7,7 @@ import SmartAlertSettingsCard from "@/components/profile/SmartAlertSettingsCard"
 import ProfileFooter from "@/components/profile/ProfileFooter";
 import { useAuth } from "@/context/AuthContext";
 import { router } from "expo-router";
+import ResponsiveContent from "@/components/layout/ResponsiveContent";
 
 export default function ProfileScreen() {
   const { user, logout } = useAuth();
@@ -34,13 +35,26 @@ export default function ProfileScreen() {
         keyboardShouldPersistTaps="handled"
         className="flex-1"
       >
-        <View className="w-full items-center gap-3">
-          <ProfileRewardsCard name={user?.name} email={user?.email} avatar={user?.avatar} />
-          <MonthlyBudgetLimitCard />
-          <PaymentConnectionsCard />
-          <SmartAlertSettingsCard />
-        </View>
-        <ProfileFooter onLogout={handleLogout} />
+        <ResponsiveContent
+          maxWidth={920}
+          className="flex-row flex-wrap items-center justify-between gap-y-3"
+        >
+          <View className="w-full md:w-[49%]">
+            <ProfileRewardsCard name={user?.name} email={user?.email} avatar={user?.avatar} />
+          </View>
+          <View className="w-full md:w-[49%]">
+            <MonthlyBudgetLimitCard />
+          </View>
+          <View className="w-full md:w-[49%]">
+            <PaymentConnectionsCard />
+          </View>
+          <View className="w-full md:w-[49%]">
+            <SmartAlertSettingsCard />
+          </View>
+        </ResponsiveContent>
+        <ResponsiveContent maxWidth={920}>
+          <ProfileFooter onLogout={handleLogout} />
+        </ResponsiveContent>
       </ScrollView>
     </View>
   );

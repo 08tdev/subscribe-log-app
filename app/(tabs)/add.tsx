@@ -1,44 +1,49 @@
-import { View, Text, ScrollView } from "react-native";
-import React from "react";
+import { useState } from "react";
+import { Alert, ScrollView } from "react-native";
+import AddWelcomeSection from "@/components/add/AddWelcomeSection";
+import SubscriptionDetailsForm, {
+  SubscriptionDraft,
+} from "@/components/add/SubscriptionDetailsForm";
+import SubscriptionPaymentPreferences from "@/components/add/SubscriptionPaymentPreferences";
+import SubscriptionPicker, {
+  INITIAL_SUBSCRIPTION_SELECTION,
+  SubscriptionSelection,
+} from "@/components/add/SubscriptionPicker";
+import ResponsiveContent from "@/components/layout/ResponsiveContent";
 
 export default function AddScreen() {
+  const [selection, setSelection] = useState<SubscriptionSelection>(INITIAL_SUBSCRIPTION_SELECTION);
+
+  const handleSubmit = (draft: SubscriptionDraft) => {
+    const cycleLabels = {
+      monthly: "매월",
+      yearly: "매년",
+      weekly: "매주",
+      custom: "직접 설정",
+    };
+    const personalAmount = draft.splitEnabled
+      ? Math.ceil(Number(draft.monthlyAmount) / draft.memberCount)
+      : Number(draft.monthlyAmount);
+
+    Alert.alert(
+      "구독 등록 기능 준비 중",
+      `${selection.serviceName} ${selection.planName} · 월 ₩${Number(draft.monthlyAmount).toLocaleString()} · ${cycleLabels[draft.cycle]} 결제\n${draft.splitEnabled ? `${draft.memberCount}명 분담, 1인당 ₩${personalAmount.toLocaleString()} · ` : ""}${draft.paymentDate}${draft.trialReminder ? " · 무료 체험 알림 켬" : ""}\n실제 저장 기능은 연동 준비 중입니다.`,
+    );
+  };
+
   return (
-    <ScrollView className="flex-1 bg-surface">
-      <View className="p-6">
-        <View className="bg-indigo-50 rounded-xl p-5 mb-6">
-          <Text className="text-xl font-bold text-indigo-800 mb-2">👋 Welcome!</Text>
-          <Text className="text-indigo-700 mb-4">You've successfully logged into the app.</Text>
-          <View className="bg-surface p-4 rounded-lg">
-            <Text className="text-gray-500 mb-1">Your email:</Text>
-            <Text className="text-gray-500 mb-1">User ID:</Text>
-          </View>
-        </View>
-
-        <Text className="text-xl font-bold mb-4">Features</Text>
-        <View className="space-y-4 mb-8">
-          <View className="bg-gray-50 p-4 rounded-lg">
-            <Text className="font-semibold mb-1">Authentication Ready</Text>
-            <Text className="text-gray-600">
-              The app includes a complete authentication flow with login, registration, and session
-              management.
-            </Text>
-          </View>
-
-          <View className="bg-gray-50 p-4 rounded-lg">
-            <Text className="font-semibold mb-1">Clean Architecture</Text>
-            <Text className="text-gray-600">
-              Follows domain-driven design with clear separation of concerns.
-            </Text>
-          </View>
-
-          <View className="bg-gray-50 p-4 rounded-lg">
-            <Text className="font-semibold mb-1">Modern UI</Text>
-            <Text className="text-gray-600">
-              Beautiful, responsive UI with NativeWind (Tailwind CSS).
-            </Text>
-          </View>
-        </View>
-      </View>
+    <ScrollView
+      className="flex-1 bg-background"
+      contentContainerStyle={{ flexGrow: 1 }}
+      keyboardShouldPersistTaps="handled"
+    >
+      <ResponsiveContent maxWidth={760} className="pb-8 pt-4">
+        <AddWelcomeSection />
+        <SubscriptionPicker value={selection} onChange={setSelection} />
+        <SubscriptionDetailsForm selection={selection} onSubmit={handleSubmit}>
+          <SubscriptionPaymentPreferences />
+        </SubscriptionDetailsForm>
+      </ResponsiveContent>
     </ScrollView>
   );
 }

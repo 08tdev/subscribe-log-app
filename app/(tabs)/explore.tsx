@@ -6,6 +6,7 @@ import FeaturedOffersSection from "@/components/explore/FeaturedOffersSection";
 import TrendingSubscriptions from "@/components/explore/TrendingSubscriptions";
 import SubscriptionBundleRecommendations from "@/components/explore/SubscriptionBundleRecommendations";
 import { router } from "expo-router";
+import ResponsiveContent from "@/components/layout/ResponsiveContent";
 
 export default function ExploreScreen() {
   return (
@@ -24,13 +25,13 @@ export default function ExploreScreen() {
         keyboardShouldPersistTaps="handled"
         className="w-full flex-1 items-center gap-y-2"
       >
-        <View className="w-full flex-column items-start gap-y-3">
+        <ResponsiveContent maxWidth={1040} className="items-start gap-y-3">
           <SubscriptionSearchBar />
           <ExploreCategoryChips />
           <FeaturedOffersSection />
           <TrendingSubscriptions />
           <SubscriptionBundleRecommendations />
-        </View>
+        </ResponsiveContent>
       </ScrollView>
     </View>
   );

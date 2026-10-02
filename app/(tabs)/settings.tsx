@@ -7,6 +7,7 @@ import SmartAlertSettings from "@/components/settings/SmartAlertSettings";
 import DataBackupSettings from "@/components/settings/DataBackupSettings";
 import { useThemeColors } from "@/constants/theme";
 import { router } from "expo-router";
+import ResponsiveContent from "@/components/layout/ResponsiveContent";
 
 export default function SettingsScreen() {
   const themeColors = useThemeColors();
@@ -57,13 +58,15 @@ export default function SettingsScreen() {
         keyboardShouldPersistTaps="handled"
         className="flex-1 bg-background"
       >
-        <SettingsContent
-          searchOpen={searchOpen}
-          searchValue={searchValue}
-          onSearchValueChange={setSearchValue}
-        />
-        <SmartAlertSettings />
-        <DataBackupSettings />
+        <ResponsiveContent maxWidth={960} className="items-center">
+          <SettingsContent
+            searchOpen={searchOpen}
+            searchValue={searchValue}
+            onSearchValueChange={setSearchValue}
+          />
+          <SmartAlertSettings />
+          <DataBackupSettings />
+        </ResponsiveContent>
       </ScrollView>
     </View>
   );

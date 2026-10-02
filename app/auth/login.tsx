@@ -1,10 +1,12 @@
 import { router } from "expo-router";
 import React, { useState } from "react";
-import { View, Text, Alert, ScrollView, TouchableOpacity } from "react-native";
-
-import LoginForm from "../../components/LoginForm";
-import { useAuth } from "../../context/AuthContext";
-import { LoginCredentials } from "../../types/user";
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
+import AuthSignupPrompt from "@/components/auth/AuthSignupPrompt";
+import LoginBrand from "@/components/auth/LoginBrand";
+import LoginCredentialsForm from "@/components/auth/LoginCredentialsForm";
+import LoginSocialOptions, { SocialProvider } from "@/components/auth/LoginSocialOptions";
+import { useAuth } from "@/context/AuthContext";
+import { LoginCredentials } from "@/types/user";
 
 export default function LoginScreen() {
   const [error, setError] = useState<string | null>(null);
@@ -15,42 +17,35 @@ export default function LoginScreen() {
       setError(null);
       await login(credentials);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to login");
-      Alert.alert("Login Failed", err instanceof Error ? err.message : "Something went wrong");
+      const message = err instanceof Error ? err.message : "로그인 중 문제가 발생했습니다.";
+      setError(message);
+      Alert.alert("로그인 실패", message);
     }
   };
 
+  const handleSocialLogin = (provider: SocialProvider) => {
+    Alert.alert(`${provider} 로그인`, "해당 로그인 방식은 준비 중입니다.");
+  };
+
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
-      <View className="flex-1 justify-center items-center p-4 bg-surface">
-        <View className="w-full max-w-sm">
-          {/* Logo placeholder - replace with your actual logo */}
-          <View className="items-center mb-8">
-            <View className="w-20 h-20 bg-indigo-700 rounded-full mb-4 items-center justify-center">
-              <Text className="text-white text-xl font-bold">LOGO</Text>
-            </View>
-            <Text className="text-3xl font-bold mb-1 text-center">Welcome Back</Text>
-            <Text className="text-gray-600 mb-8 text-center">
-              Sign in to continue to your account
-            </Text>
-          </View>
-
-          {error && (
-            <View className="bg-red-100 p-3 rounded-md mb-4">
-              <Text className="text-red-700">{error}</Text>
-            </View>
-          )}
-
-          <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
-
-          <View className="mt-6 flex-row justify-center">
-            <Text className="text-gray-600">Don't have an account? </Text>
-            <TouchableOpacity onPress={() => router.push("/auth/register")}>
-              <Text className="text-indigo-700 font-bold">Sign Up</Text>
-            </TouchableOpacity>
+    <KeyboardAvoidingView
+      className="flex-1 bg-background"
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+        className="flex-1 bg-background"
+      >
+        <View className="flex-1 items-center justify-center px-4 py-4">
+          <View className="w-full max-w-[420px]">
+            <LoginBrand />
+            <LoginCredentialsForm onSubmit={handleLogin} isLoading={isLoading} error={error} />
+            <LoginSocialOptions onSelectProvider={handleSocialLogin} />
+            <AuthSignupPrompt onSignUp={() => router.push("/auth/register")} />
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

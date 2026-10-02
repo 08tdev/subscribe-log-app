@@ -6,6 +6,13 @@ export interface User {
   bio?: string;
   location?: string;
   phone?: string;
+  preferences?: RegistrationPreferences;
+}
+
+export interface RegistrationPreferences {
+  categoryIds: string[];
+  subscriptionNames: string[];
+  monthlySpendRange: string;
 }
 
 export interface AuthState {
@@ -22,4 +29,5 @@ export interface LoginCredentials {
 
 export interface RegisterCredentials extends LoginCredentials {
   name: string;
+  preferences?: RegistrationPreferences;
 }

@@ -7,6 +7,7 @@ import GreetingBanner from "@/components/banner/GreetingBanner";
 import WeeklyPaymentCard from "@/components/card/WeeklyPaymentCard";
 import UpcomingPaymentsSection from "@/components/card/UpcomingPaymentsSection";
 import UnusedSubscriptionCard from "@/components/card/UnusedSubscriptionCard";
+import ResponsiveContent from "@/components/layout/ResponsiveContent";
 
 export default function IndexScreen() {
   return (
@@ -25,7 +26,7 @@ export default function IndexScreen() {
         keyboardShouldPersistTaps="handled"
         className="w-full flex-1 items-center gap-y-2"
       >
-        <View className="w-full flex-column items-center gap-2">
+        <ResponsiveContent maxWidth={960} className="items-center gap-2">
           <View className="w-[90%] flex-column items-start">
             <Text className="text-xl sm font-bold text-gray-600 mr-2">
               {"반가워요 0xconsolas님!👋"}
@@ -37,7 +38,7 @@ export default function IndexScreen() {
           <WeeklyPaymentCard />
           <UpcomingPaymentsSection onViewAll={() => router.push("/payment")} />
           <UnusedSubscriptionCard />
-        </View>
+        </ResponsiveContent>
       </ScrollView>
     </View>
   );

@@ -1,6 +1,7 @@
 import { HeaderProps } from "@/interface/HeaderInterface";
 import React from "react";
-import { View, Text, TouchableOpacity, SafeAreaView, Platform, StatusBar } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import Logo from "../logo/Logo";
 import { useColorScheme } from "nativewind";
@@ -17,30 +18,38 @@ export default function Header({
   showSetting,
   onSettingIconPress,
 }: HeaderProps) {
-  const statusBarHeight = Platform.OS === "android" ? StatusBar.currentHeight : 0;
   const { colorScheme } = useColorScheme();
   const themeColors = useThemeColors();
+  const rightActionLabel =
+    rightIcon === "search-outline"
+      ? "설정 검색"
+      : rightIcon === "notifications-outline"
+        ? "알림"
+        : "닫기";
 
   return (
-    <SafeAreaView className="bg-card" style={{ paddingTop: statusBarHeight }}>
+    <SafeAreaView edges={["top"]} className="bg-card">
       <View
-        className="h-14 flex-row items-center justify-between px-4 border-b border-solid border-border"
+        className="min-h-14 flex-row items-center justify-between border-b border-solid border-border px-2 py-1 sm:px-4"
         style={{ borderBottomWidth: 1 }}
       >
-        <View className="flex-1 flex-row items-center justify-start">
+        <View className="min-w-0 flex-1 flex-row items-center justify-start">
           {showBack ? (
-            <View className="flex-row items-center gap-2">
+            <View className="min-w-0 flex-row items-center gap-1">
               <TouchableOpacity
                 accessibilityRole="button"
                 accessibilityLabel="뒤로가기"
                 onPress={onBackPress}
                 hitSlop={10}
-                className="p-1"
+                className="min-h-11 min-w-11 items-center justify-center"
               >
                 <Ionicons name="chevron-back" size={24} color={themeColors.foreground} />
               </TouchableOpacity>
               {!!title && (
-                <Text className="text-base font-bold text-foreground" numberOfLines={1}>
+                <Text
+                  className="min-w-0 shrink text-base font-bold text-foreground"
+                  numberOfLines={1}
+                >
                   {title}
                 </Text>
               )}
@@ -48,14 +57,19 @@ export default function Header({
           ) : (
             showHome && (
               <TouchableOpacity
+                accessibilityRole="button"
+                accessibilityLabel={title ? `${title} 홈` : "홈"}
                 onPress={onHomeIconPress}
                 hitSlop={10}
                 activeOpacity={0.7}
-                className="flex-row items-center gap-2"
+                className="min-h-11 min-w-0 flex-row items-center gap-2"
               >
                 <Logo theme={colorScheme} />
                 {!!title && (
-                  <Text className="text-base font-bold text-foreground" numberOfLines={1}>
+                  <Text
+                    className="min-w-0 shrink text-base font-bold text-foreground"
+                    numberOfLines={1}
+                  >
                     {title}
                   </Text>
                 )}
@@ -65,19 +79,24 @@ export default function Header({
         </View>
 
         {/* [오른쪽 영역] */}
-        <View className="flex-row items-center gap-2 justify-end">
+        <View className="shrink-0 flex-row items-center justify-end gap-1">
           {rightIcon && (
             <TouchableOpacity
               accessibilityRole="button"
-              accessibilityLabel={rightIcon === "search-outline" ? "설정 검색" : "닫기"}
+              accessibilityLabel={rightActionLabel}
               onPress={onRightIconPress}
-              className="p-1"
+              className="min-h-11 min-w-11 items-center justify-center"
             >
               <Ionicons name={rightIcon} size={22} color={themeColors.foreground} />
             </TouchableOpacity>
           )}
           {showSetting && (
-            <TouchableOpacity onPress={onSettingIconPress} className="p-1">
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityLabel="설정"
+              onPress={onSettingIconPress}
+              className="min-h-11 min-w-11 items-center justify-center"
+            >
               <Ionicons name="settings-outline" size={22} color={themeColors.foreground} />
             </TouchableOpacity>
           )}

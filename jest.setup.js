@@ -12,6 +12,14 @@ jest.mock("nativewind", () => ({
   }),
 }));
 
+jest.mock("react-native-safe-area-context", () => {
+  return {
+    SafeAreaProvider: ({ children }) => children,
+    SafeAreaView: ({ children }) => children,
+    useSafeAreaInsets: () => ({ top: 0, right: 0, bottom: 0, left: 0 }),
+  };
+});
+
 jest.mock("react-native", () => {
   const RN = jest.requireActual("react-native");
   return {
